@@ -36,10 +36,10 @@ jobs:
           
       - name: Run tests (parallel)
         run: |
-          mkdir -p results
+          mkdir -p test-results
           pytest -v tests/ -n auto --dist=loadscope \
-            --junitxml=results/results.xml \
-            --html=results/report.html \
+            --junitxml=test-results/results.xml \
+            --html=test-results/report.html \
             --self-contained-html
 
       - name: Upload raw test data
@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-output
-          path: results/
+          path: test-results/
 
   report:
     runs-on: ubuntu-latest
@@ -64,13 +64,13 @@ jobs:
         if: ${{ always() }}
         uses: EnricoMi/publish-unit-result-action@v2
         with:
-          files: results/**/*.xml
+          files: test-results/**/*.xml
             
       - name: Upload reports
         uses: actions/upload-artifact@v4
         with:
           name: final-reports
-          path: results/
+          path: test-results/
               
   cleanup:
     runs-on: ubuntu-latest
