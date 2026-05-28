@@ -108,3 +108,11 @@ jobs:
     steps:
       - name: Cleanup info
         run: echo "Cleanup completed"
+
+      # Show results directly in GitHub UI
+      - name: Publish Test Results
+        if: ${{ always() }}
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: |
+            test-results/**/*.xml
