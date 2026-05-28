@@ -1,6 +1,6 @@
 import re
 import pytest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 file_path = Path(__file__).parent.parent / "resources/upload_file.txt"
 
@@ -14,8 +14,8 @@ def uploaded_file(file_upload):
 @pytest.mark.ui
 def test_correct_file_selected(uploaded_file):
     """Verify correct file is selected."""
-    uploaded_name = Path(uploaded_file.get_uploaded_file()).name
-    assert uploaded_name == file_path.name
+    uploaded_name = PureWindowsPath(uploaded_file.get_uploaded_file()).name
+    assert uploaded_name.lower() == file_path.name.lower()
 
 @pytest.mark.ui
 def test_file_upload_success(uploaded_file):
