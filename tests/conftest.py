@@ -1,3 +1,5 @@
+import os
+import yaml
 import random
 from pytest import fixture
 from selenium import webdriver
@@ -12,6 +14,41 @@ from pages.date_picker import DatePicker
 from pages.file_upload import FileUpload
 from resources.selenium_data import SeleniumData
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+def load_users():
+    with open("config/users.yaml", encoding="utf-8") as file:
+        return yaml.safe_load(file)
+
+def pytest_generate_tests(metafunc):
+    data = load_users()
+
+    if "valid_user" in metafunc.fixturenames:
+        users = []
+        ids = []
+        for user in data["valid_users"]:
+            users.append(
+                {"username": user["username"],
+                 "password": os.getenv(user["password_env"]),
+                 })
+            ids.append(user["id"])
+
+        metafunc.parametrize("valid_user", users,ids=ids,)
+
+    if "invalid_user" in metafunc.fixturenames:
+        users = []
+        ids = []
+        for user in data["invalid_users"]:
+            users.append(
+                {"username": user["username"],
+                 "password": user["password"],
+                })
+            ids.append(user["id"])
+
+        metafunc.parametrize("invalid_user", users,ids=ids,)
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -94,7 +131,6 @@ def login(driver: WebDriver):
         return login_page
 
     return _login
-
 
 @fixture(params=SeleniumData.calendar_months, ids=lambda c: c)
 def months(request) -> str:

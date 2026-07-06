@@ -5,3 +5,6 @@ pytest-metadata
 pytest-ordering
 pytest-rerunfailures
 pytest-xdist
+dotenv
+pyyaml
+python-dotenv

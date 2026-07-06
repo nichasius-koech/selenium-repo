@@ -1,0 +1,25 @@
+valid_users:
+  - id: admin
+    username: admin
+    password_env: ADMIN_PASSWORD
+
+  - id: user1
+    username: user1
+    password_env: USER1_PASSWORD
+
+  - id: user2
+    username: user2
+    password_env: USER2_PASSWORD
+
+invalid_users:
+  - id: wrong_password
+    username: admin
+    password: wrong123
+
+  - id: wrong_username
+    username: invalid_user
+    password: pass1
+
+  - id: empty_username
+    username: ""
+    password: pass1
