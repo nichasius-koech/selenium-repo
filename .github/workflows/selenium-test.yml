@@ -51,6 +51,10 @@ jobs:
 
   report:
     runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+
     needs: test
   
     steps:
