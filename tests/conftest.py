@@ -78,10 +78,23 @@ def web_table(driver: WebDriver) -> WebTable:
     """Instantiate WebTable class."""
     return WebTable(driver)
 
-@fixture
-def login(driver: WebDriver) -> LoginPage:
-    """Instantiate LoginPage class."""
-    return LoginPage(driver)
+import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
+
+
+@pytest.fixture
+def login(driver: WebDriver):
+    """Login helper fixture."""
+    login_page = LoginPage(driver)
+
+    def _login(username: str, password: str):
+        login_page.enter_user_name(username)
+        login_page.enter_password(password)
+        login_page.tap_login_btn()
+        return login_page
+
+    return _login
+
 
 @fixture(params=SeleniumData.calendar_months, ids=lambda c: c)
 def months(request) -> str:
