@@ -36,6 +36,10 @@ jobs:
           
       - name: Run tests (parallel)
         run: |
+          pwd
+          ls -la
+          find . -type d
+          export PYTHONPATH=$GITHUB_WORKSPACE
           mkdir -p test-results
           pytest -v tests/ -n auto --dist=loadscope \
             --junitxml=test-results/results.xml \
@@ -51,9 +55,6 @@ jobs:
 
   report:
     runs-on: ubuntu-latest
-
-    env:
-      PYTHONPATH: ${{ github.workspace }}
 
     needs: test
   
