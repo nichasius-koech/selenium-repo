@@ -1,8 +1,8 @@
-import logging
 from typing import List
 from selenium.common import NoSuchElementException
 from selenium.webdriver.support.select import Select
 
+from helper_functions.logging import log_info
 from pages.base_page import BasePage
 from resources.locators import CommonLocator
 from resources.selenium_data import SeleniumData
@@ -17,13 +17,13 @@ class DropDownPage(BasePage):
     @property
     def drop_down(self)-> Select:
         """Initialize dropdown element."""
-        logging.info("Initialising Dropdown elements.")
+        log_info("Initialising Dropdown elements.")
         return Select(self.driver.find_element(*CommonLocator.dropdown_select))
 
     def get_all_selected_options(self)-> List[str]:
         """Function returns a list of all selected dropdown options assuming
         multiple selections is enabled."""
-        logging.info("Get list of all selected drop down options.")
+        log_info("Get list of all selected drop down options.")
         selected_options = [
             option.text
             for option in self.drop_down.options
@@ -33,7 +33,7 @@ class DropDownPage(BasePage):
 
     def select_option(self, option:str)-> None:
         """Select drop down option."""
-        logging.info(f"Selecting : {option}")
+        log_info(f"Selecting : {option}")
         try:
               self.drop_down.select_by_visible_text(option)
         except NoSuchElementException as error:
@@ -41,5 +41,5 @@ class DropDownPage(BasePage):
 
     def is_option_selected(self, option:str)-> bool:
         """Verify Dropdown option is selected"""
-        logging.info("Verify drop down option is selected.")
+        log_info("Verify drop down option is selected.")
         return option in self.drop_down.first_selected_option.text

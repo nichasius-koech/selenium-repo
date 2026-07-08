@@ -1,6 +1,7 @@
 from typing import List
 from selenium.webdriver.remote.webelement import WebElement
 
+from helper_functions.logging import log_info
 from pages.base_page import BasePage
 from resources.locators import WebTableLocator
 from resources.selenium_data import SeleniumData
@@ -21,12 +22,14 @@ class WebTable(BasePage):
 
     def get_table_headers(self) -> List[str]:
         """Return table headers."""
+        log_info("Retrieving Table Headers.")
         table_headers: List[str] = [
             th.text.strip() for th in self.table.find_elements(*WebTableLocator.table_headers)]
         return table_headers
 
     def get_table_rows(self) -> List[dict]:
         """Return table rows values mapped to table headers-."""
+        log_info("Retrieving Table Rows.")
         headers = self.get_table_headers()
         rows=self.table.find_elements(*WebTableLocator.table_rows)
         table_rows=[]

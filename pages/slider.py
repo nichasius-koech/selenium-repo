@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
+from helper_functions.logging import log_info
 from pages.base_page import BasePage
 from resources.locators import CommonLocator
 from resources.selenium_data import SeleniumData
@@ -16,23 +17,29 @@ class Slider(BasePage):
 
     def set_slider_value(self, value: int) -> None:
         """Set actual slider value. Move the slider {offset} pixels to the right"""
+        log_info(f"Set Slider value : {value}.")
         self.driver.execute_script(
             """
             arguments[0].value = arguments[1];
             arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
             arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
             """,
-            self.slider,
-            value)
+            self.slider, value)
 
     def get_slider_min_value(self)-> int:
         """Get slider min value."""
-        return int(self.slider.get_attribute("min"))
+        min_val = int(self.slider.get_attribute("min"))
+        log_info(f"Minimum Slider value = {min_val}.")
+        return min_val
 
     def get_slider_max_value(self)-> int:
         """Get slider max value."""
-        return int(self.slider.get_attribute("max"))
+        max_val = int(self.slider.get_attribute("max"))
+        log_info(f"Current Slider value = {max_val}.")
+        return max_val
 
     def get_slider_value(self) -> int:
         """Get current slider value."""
-        return int(self.slider.get_attribute("value"))
+        curr_val = int(self.slider.get_attribute("value"))
+        log_info(f"Current Slider value = {curr_val}.")
+        return curr_val
